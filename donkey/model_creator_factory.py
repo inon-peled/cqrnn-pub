@@ -7,6 +7,7 @@ from create_model import create_model_regularized_tanh
 from create_model import create_model_lstm_linear
 from create_model import create_model_regularized_linear
 from create_model import create_model_linear
+from create_model import create_model_lstm_linear_multi
 
 
 def get_model_creator(which):
@@ -19,5 +20,6 @@ def get_model_creator(which):
         'regularized_tanh': create_model_regularized_tanh.create_model,
         'linear': create_model_linear.create_model,
         'regularized_linear': create_model_regularized_linear.create_model,
-        'lstm_linear': create_model_lstm_linear.create_model
+        'lstm_linear': create_model_lstm_linear.create_model,
+        'lstm_linear_multi': create_model_lstm_linear_multi.create_model
     }[which]

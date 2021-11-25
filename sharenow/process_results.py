@@ -35,18 +35,20 @@ def process_results(obs_set, do_flip, num_lags, persist_dir, cens_seed_range, tf
             for tf_seed in tf_seed_range 
             for frac in frac_range])\
         .assign(icp_val_proximity_to_90perc=lambda d: abs(d.icp_val - 0.9))\
-        .sort_values(by=['icp_val_proximity_to_90perc', 'mil_val', 'cross_val'])\
+        .sort_values(by=['icp_val_proximity_to_90perc', 'mil_val', 'cross_val','tl_val'])\
         .groupby(['frac', 'cens_seed'])\
         .first()\
         .reset_index()\
         .groupby('frac')\
         .agg(['mean', 'std'])\
-        [['icp_test', 'mil_test', 'cross_test']]
+        [['icp_test', 'mil_test', 'cross_test','tl_test']]
 
     tab_str = ''
     for row in df_res.iterrows():
         tab_str += ('& \\ms{%.3f}{%.1f}' % (row[1]['icp_test']['mean'], row[1]['icp_test']['std'])).replace('0.', '.')
         tab_str += (' & \\ms{%d}{%d}' % (row[1]['mil_test']['mean'], row[1]['mil_test']['std']))
+        tab_str += (' & \\ms{%.3f}{%.1f}' % (row[1]['cross_test']['mean'], row[1]['cross_test']['std']))
+        #tab_str += (' & \\ms{%d}{%d}' % (row[1]['tl_test']['mean'], row[1]['tl_test']['std']))
     tab_str += ' \\\\'
     print(tab_str)
 
